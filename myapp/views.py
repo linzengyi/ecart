@@ -13,8 +13,13 @@ from myapp.lib.utils import generate_order_number
 # Create your views here.
 
 
-api_url = "http://192.168.0.166:8080/"
+# api_url = "http://192.168.0.166:8080/"
 # api_url = "http://192.168.58.22:8080/"
+api_url = "https://ecart-mpqg.onrender.com/"
+
+def test(request):
+    return HttpResponse("test")
+
 
 def index(request):
     storeCode = request.GET['store']

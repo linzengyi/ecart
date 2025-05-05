@@ -1,4 +1,2 @@
 /myapp/migrations/__pycache__
 /myapp/migrations/*_initial.py
-
-*.sqlite3
