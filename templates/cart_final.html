@@ -1,0 +1,70 @@
+{% extends "share/layout.html" %}
+
+{% block title %}Ecart ({{shopName}}){% endblock title %}
+
+{% block content %}
+<header class="text-secondary bg-primary bg-gradient w-100 shadow-sm"><!-- -->
+    <h1 class="h1 text-light py-2 ms-3 m-0">Ecart ({{shopName}})</h1>
+</header>
+<div class="container-fluid">
+    <main class="container d-flex justify-content-center align-items-center min-vh-100 px-3">
+        <div class="card shadow-sm p-4 w-100" style="max-width: 420px;">
+            <div class="text-center text-success mb-3">
+                <i class="bi bi-check-circle-fill success-icon"></i>
+            </div>
+            <h4 class="text-center mb-2">交易完成</h4>
+            <p class="text-muted text-center small mb-3">
+                您的交易已成功完成，感謝您的使用。
+            </p>
+            <!-- 顯示交易編號 -->
+            <div class="bg-light rounded p-2 mb-3 border text-center">
+                <span class="text-secondary small">交易編號：</span>
+                <strong class="d-block">{{orderNo}}</strong>
+            </div>
+            <!-- 顯示倒數秒數 -->
+            <p class="text-center text-muted small">
+                <span id="countdown">5</span> 秒後將自動跳轉回購物車...
+            </p>
+            <div class="d-grid gap-2">
+                <a href="/cart/1" class="btn btn-success btn-lg">立即回購物車</a>
+                <a href="/orders/" class="btn btn-outline-secondary btn-lg">查看我的訂單</a>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    let seconds = 10;
+    const countdownEl = document.getElementById('countdown');
+  
+    const timer = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = seconds;
+  
+      if (seconds <= 0) {
+        clearInterval(timer);
+        window.location.href = '/cart/1'; // 導向購物車頁面
+      }
+    }, 1000);
+</script>
+{% endblock script %}
+
+{% block style %}
+<style>
+.success-icon {
+    font-size: 3.5rem;
+}
+@media (min-width: 768px) {
+    .success-icon {
+        font-size: 4rem;
+    }
+}
+</style>
+{% endblock style %}
+
+
+
+
+

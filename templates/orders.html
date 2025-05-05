@@ -1,0 +1,107 @@
+{% extends "share/layout.html" %}
+
+{% block title %}Ecart{% endblock title %}
+
+{% block content %}
+<header class="text-secondary bg-primary bg-gradient w-100 shadow-sm"><!-- -->
+    <h1 class="h1 text-light py-2 ms-3 m-0">Ecart</h1>
+</header>
+<div class="row">
+    <div class="col-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb pt-2 mb-1">
+                <li class="breadcrumb-item"><a class="ps-2" href="#">會員資訊</a></li>
+                <li class="breadcrumb-item active" aria-current="page">交易紀錄</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<div class="container-fluid">
+    <main class="bg-body-tertiary mt-2 flex-fill">
+        <div class="container">
+            <div class="card shadow-sm">
+                <div class="card-body p-2">
+                    <h5 class="card-title">交易紀錄</h5>
+                    <!-- 加入 overflow scroll 容器 -->
+                    <div class="table-responsive" style="max-height: 380px; overflow-y: auto;">
+                        <table class="table table-sm table-bordered table-striped caption-top mb-0">
+                            <caption class="visually-hidden">交易紀錄表格</caption>
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th class="text-nowrap text-center">訂單編號</th>
+                                    <th class="text-nowrap text-center">總金額</th>
+                                    <th class="text-nowrap text-center">訂購日期</th>
+                                    <th class="text-nowrap text-center">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for order in orderList %}
+                                <tr>
+                                    <td class="p-2 text-center">{{ order.order_no }}</td>
+                                    <td class="p-2 text-center">{{ order.total_amount }} 元</td>
+                                    <td class="p-2 text-center">{{ order.created_at|date:'Y-m-d H:i' }}</td>
+                                    <td class="text-center">
+                                        <a class="btn btn-sm btn-outline-primary text-nowrap" style="min-width: 72px;" href="/orders/{{ order.order_no }}">詳細</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </main>
+    <div id="menu" class="bg-secondary">
+        <div class="row">
+            <div id="menu-item1" class="col-6 text-center bg-secondary-subtle" style="height: 50px;line-height: 50px;">
+                <a class="btn btn-link text-decoration-none text-dark fw-bold" href="/cart/1/">
+                    <i class="bi bi-cart-fill text-dark me-1"></i>購物車</a>
+            </div>
+            <div id="menu-item2" class="col-6 text-center bg-secondary-subtle" style="height: 50px;line-height: 50px;">
+                <a class="btn btn-link text-decoration-none text-dark fw-bold" href="/member/">
+                    <i class="bi bi-person-fill text-dark me-1"></i>會員資訊</a> 
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+
+</script>
+{% endblock script %}
+
+{% block style %}
+<style>
+table td:nth-child(1),
+table td:nth-child(2),
+table td:nth-child(3) {
+    font-size: 1.15rem;
+}
+
+th:first-child,
+tr > td:first-child {
+    text-align: center;
+}
+
+#menu-item2, #menu-item1 {
+    /*border-bottom: 3px solid lightyellow;*/
+    border-right: 4px solid #8f8e8ede;
+    cursor: pointer;
+    color: red;
+}
+
+#menu-item1 > a, 
+#menu-item2 > a{
+    font-size: 1.15rem;
+}
+
+</style>
+{% endblock style %}
+
+
+
+
+

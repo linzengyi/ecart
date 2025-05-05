@@ -1,0 +1,135 @@
+{% extends "share/layout.html" %}
+
+{% block title %}Ecart ({{shopName}}){% endblock title %}
+
+{% block content %}
+<header class="text-secondary bg-primary bg-gradient w-100 shadow-sm"><!-- -->
+    <h1 class="h1 text-light py-2 ms-3 m-0">Ecart ({{shopName}})</h1>
+</header>
+<div class="container-fluid">
+    <form>
+        <input type="hidden" id="store_code" value="{{storeData.code}}">
+        <input type="hidden" id="device_code" value="{{deviceData.code}}">
+    </form>
+    <div id="alert" class="alert alert-danger my-3 d-none" role="alert"></div>
+    <main class="bg-body-tertiary px-1 py-2 mt-3 flex-fill">
+        <h2 class="fs-5">購物明細:</h2>
+        <div class="table-responsive border rounded shadow p-2" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-sm table-bordered table-striped caption-top m-0">
+                <thead class="table-light sticky-top bg-white" style="top: 0; z-index: 10;">
+                    <tr>
+                    <th class="bg-dark-subtle text-dark-emphasis">No</th>
+                    <th class="bg-dark-subtle text-dark-emphasis">商品</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in ecart_lists %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{item.product_name}}<br>{{item.price}}元</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- 模擬表尾：獨立區塊 + 固定底部 -->
+        <div class="bg-white border border-top-0 rounded-bottom shadow-sm sticky-bottom" style="z-index: 10;">
+            <div class="text-end pe-4 py-2">
+            已加入 {{count}} 項，小計: {{subTotal}} 元
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-10 p-2 offset-md-1">
+                <form id="form_1" action="/cart/3/" method="post">
+                    {% csrf_token %}
+                    <fieldset class="row mb-3">
+                        <legend class="col-12 col-sm-2 col-form-label pt-0 text-start mb-2 mb-sm-0">付款方式:</legend>
+                        <div class="col-sm-10">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod1" value="money" checked>
+                                <label class="form-check-label" for="paymentMethod1">
+                                    現金付款
+                                </label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="paymentMethod2" value="credit_card">
+                                <label class="form-check-label" for="paymentMethod2">
+                                    信用卡
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="d-flex align-items-center justify-content-between flex-nowrap w-100" style="gap: 0.25rem;">
+                        <input type="text" class="form-control text-center" maxlength="4"
+                               id="credit_card_num1" inputmode="numeric" pattern="\d{4}"
+                               style="flex: 1 1 0; min-width: 0;" readonly />
+                        <span class="fs-5">-</span>
+                        <input type="text" class="form-control text-center" maxlength="4"
+                               id="credit_card_num2" inputmode="numeric" pattern="\d{4}"
+                               style="flex: 1 1 0; min-width: 0;" readonly />
+                        <span class="fs-5">-</span>
+                        <input type="text" class="form-control text-center" maxlength="4"
+                               id="credit_card_num3" inputmode="numeric" pattern="\d{4}"
+                               style="flex: 1 1 0; min-width: 0;" readonly />
+                        <span class="fs-5">-</span>
+                        <input type="text" class="form-control text-center" maxlength="4"
+                               id="credit_card_num4" inputmode="numeric" pattern="\d{4}"
+                               style="flex: 1 1 0; min-width: 0;" readonly />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="d-grid gap-3 d-flex justify-content-end mt-5">
+            <button id="btnBack" class="btn btn-secondary w-100">取消</button>
+            <button id="btnFinal" class="btn btn-primary w-100">確認</button>
+        </div>
+    </main>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+
+$(function() {
+    $('#btnBack').on('click', function() {
+        location.href = '/cart/1';
+    });
+
+    $('#btnFinal').on('click', function() {
+        $('#form_1').submit();
+    });
+
+    $('#paymentMethod1').on('change', function() {
+        $('#credit_card_num1').attr('readonly', 'readonly');
+        $('#credit_card_num2').attr('readonly', 'readonly');
+        $('#credit_card_num3').attr('readonly', 'readonly');
+        $('#credit_card_num4').attr('readonly', 'readonly');
+        $('#credit_card_num1').val('');
+        $('#credit_card_num2').val('');
+        $('#credit_card_num3').val('');
+        $('#credit_card_num4').val('');
+    });
+
+    $('#paymentMethod2').on('change', function() {
+            $('#credit_card_num1').removeAttr('readonly');
+            $('#credit_card_num2').removeAttr('readonly');
+            $('#credit_card_num3').removeAttr('readonly');
+            $('#credit_card_num4').removeAttr('readonly');
+    });
+}); 
+</script>
+{% endblock script %}
+
+{% block style %}
+<style>
+th:first-child,
+tr > td:first-child {
+    text-align: center;
+}
+</style>
+{% endblock style %}
+
+
+
+
+

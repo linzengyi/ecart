@@ -1,0 +1,74 @@
+{% extends "share\layout.html" %}
+
+{% block title %}Ecart{% endblock  %}
+
+{% block content %}
+<header class="text-secondary bg-primary bg-gradient w-100 shadow-sm">
+    <h1 class="h1 text-light py-2 ms-3 m-0">Ecart</h1>
+</header>
+<div class="container-fluid vh-100 d-flex flex-column">
+    {% if isError %}
+        <div class="alert alert-danger my-3" role="alert">{{errorMessage}}</div>
+    {% endif %}
+    <main class="bg-body-tertiary px-1 py-2 mt-3 flex-fill">
+        <div class="card shadow">
+            <div class="card-header">
+                <h2 class="my-1">會 員 登 入</h2>
+            </div>
+            <div class="card-body">
+                <form action="/login/?store={{storeCode}}&device={{deviceCode}}" method="post">
+                    {% csrf_token %}
+                    <div class="row mb-3">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <lablel class="form-label fw-bold fs-5" for="userAccount" style="margin: 0px;">
+                                帳號:
+                            </lablel>
+                        </div>
+                        <div class="col-8">
+                            <input id="userAccount" name="userAccount" class="form-control" type="text" placeholder="請輸入手機號碼">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-4 d-flex align-items-center justify-content-end">
+                            <lablel class="form-label fw-bold fs-5" for="userPassword" style="margin: 0px;">
+                                密碼:
+                            </lablel>
+                        </div>
+                        <div class="col-8">
+                            <input id="userPassword" name="userPassword" class="form-control" type="password" placeholder="請輸入密碼">
+                        </div>      
+                    </div>
+                    <hr class="m-3">
+                    <div class="row">
+                        <div class="col-12 text-end">
+                            <input class="btn btn-success me-4 w-25" type="submit" value="登入">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="d-grid gap-2 d-flex justify-content-end pt-4">
+            <a class="btn btn-warning w-50 mt-2 text-black-50 fs-5 mx-4 fw-bold" href="/forgetpassword/?store={{storeCode}}&device={{deviceCode}}">忘記密碼</a>
+            <a class="btn btn-info w-50 mt-2 text-black-50 fs-5 mx-4 fw-bold" href="/register/?store={{storeCode}}&device={{deviceCode}}">帳號註冊</a>
+        </div>
+    </main>
+    <footer class="vw-100 mt-auto">
+        <p class="text-center m-0 py-2 fs-6">&copy;2025 power by xanxus</p>
+    </footer>
+</div>
+{% endblock content %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock style %}
+
+{% block script %}
+<script>
+    setInterval(()=>{
+        console.log("run");
+        $('[role=alert]').addClass("d-none");
+    }, 5*1000);
+</script>
+{% endblock script %}

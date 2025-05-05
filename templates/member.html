@@ -1,0 +1,167 @@
+{% extends "share/layout.html" %}
+
+{% block title %}Ecart{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <header class="text-secondary bg-primary bg-gradient position-absolute top-0 start-0 w-100 shadow-sm"><!-- -->
+        <h1 class="h1 text-light ms-3 mt-2">Ecart</h1>
+    </header>
+    <div class="row mt-5">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb pt-2 mb-1">
+                    <li class="breadcrumb-item active fs-6" aria-current="page">會員資訊</li> 
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <main class="bg-body-tertiary ps-2 pe-2 mt-1">
+        {% if isError %}
+            <div class="alert alert-danger" role="alert">{{errorMessage}}</div>
+        {% endif %}
+        <div class="card shadow" >
+            <div class="card-header">
+                <h2 class="my-1">會員資料</h2>
+            </div>
+            <div class="card-body" >
+                <form action="/member/" method="post">
+                    {% csrf_token %}
+                    <div class="row mb-2">
+                        <div class="col-3 d-flex align-items-center justify-content-end">
+                            <lablel class="form-label" for="memberName" style="margin: 0px;">
+                                姓名:
+                            </lablel>
+                        </div>
+                        <div class="col-8">
+                            <input name="memberName" id="memberName" class="form-control" type="text" value="{{memberData.name}}" readonly>
+                            <input name="memberId" type="hidden" value="{{memberData.id}}"/>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3 d-flex align-items-center justify-content-end">
+                            <lablel class="form-label" for="memberAccount" style="margin: 0px;">
+                                帳號:
+                            </lablel>
+                        </div>
+                        <div class="col-8">
+                            <input id="memberAccount" class="form-control" type="text" value="{{memberData.account}}" readonly>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3 d-flex align-items-center justify-content-end">
+                            <lablel class="form-label" for="memberPassword" style="margin: 0px;">
+                                密碼:
+                            </lablel>
+                        </div>
+                        <div class="col-8">
+                            <input name="memberPassword" id="memberPassword" class="form-control" type="password" readonly>
+                        </div>      
+                    </div>
+                    <!-- 確認密碼欄位，在編輯狀態且密碼欄位，不為空值顯示-->
+                    <div id="checkPasswoedContainer" class="row mb-2 d-none">
+                        <div class="col-3 d-flex align-items-center justify-content-end">
+                            <lablel class="form-label" for="memberCheckPassword" style="margin: 0px;">
+                                確認密碼:
+                            </lablel>
+                        </div>
+                        <div class="col-8">
+                            <input name="memberCheckPassword" id="memberCheckPassword" class="form-control" type="password">
+                        </div>      
+                    </div>
+                    <hr class="m-3">
+                    <div class="row">
+                        <div class="col-12 text-end">
+                            <input id="btnEdit" class="btn btn-secondary me-3" type="button" value="編輯">
+                            <input id="btnSave" class="btn btn-primary me-4" type="submit" value="儲存" disabled>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="d-grid gap-2 col-8 col-md-6 mx-auto">
+                <a class="btn btn-info fw-5 fw-bold mx-2 my-2 text-white" href="/orders/">交 易 紀 錄</a>
+                <a class="btn btn-success fw-5 fw-bold mx-2 my-2 " href="/logout/">登 出</a>
+            </div>
+        </div>
+    </main>
+    <div id="menu" class="bg-secondary">
+        <div class="row">
+            <div id="menu-item1" class="col-6 text-center bg-secondary-subtle" style="height: 50px;line-height: 50px;">
+                <a  class="btn btn-link text-decoration-none text-dark fw-bold" href="/cart/1">
+                    <i class="bi bi-cart-fill text-dark me-1"></i>購物車</a> 
+            </div>
+            <div id="menu-item2" class="col-6 text-center bg-secondary text-white" style="height: 50px;line-height: 50px;">
+                <i class="bi bi-person-fill text-white me-1"></i>會員資訊
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    $(function() {
+        $('#btnEdit').on('click', function() {
+            if ($(this).val() == '編輯') {
+                $('#memberName').removeAttr('readonly');
+                $('#memberPassword').removeAttr('readonly');
+                $(this).val('取消');
+                $('#btnSave').removeAttr('disabled');
+                $('#memberPassword').trigger('change');
+            } else {
+                $('#memberName').attr('readonly', 'readonly');
+                $('#memberPassword').attr('readonly', 'readonly');
+                $(this).val('編輯');
+                $('#btnSave').prop('disabled', true);
+                $('#memberPassword').trigger('change');
+            }
+            $('#checkPasswoedContainer').toggleClass('d-none');
+        });
+
+        $('form').on('submit', function(event) {
+            let password = $('#memberPassword').val();
+            let checkPassword = $('#memberCheckPassword').val();
+
+            if (checkPassword != password) {
+                alert("確認密碼與密碼不符!");
+                event.preventDefault();
+                return;
+            }
+        });
+    });
+</script>
+{% endblock script %}
+
+{% block style %}
+<style>
+
+main {
+    margin-top: 65px;
+}
+#menu {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+}
+
+#menu-item1 a {
+    font-size: 1.15rem;
+}
+
+#menu-item2 {
+    border-bottom: 3px solid lightyellow;
+    font-size: 1.2rem;
+    border-left: 4px solid #8f8e8ede;
+    cursor: pointer;
+}
+</style>
+{% endblock style %}
+
+
+
+
+
