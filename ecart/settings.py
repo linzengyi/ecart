@@ -23,11 +23,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY", 'django-insecure-q@a^)2-nr2!8bdxmk60yd3ht5s1m+bdu4v6xpop0ywj($!6&mf')
+print(SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG","False").lower == "true"
+DEBUG = os.environ.get("DEBUG","True").lower() == "true"
+print(DEBUG)
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(" ")
+print(ALLOWED_HOSTS)
 
 # Application definition
 
@@ -86,7 +89,8 @@ DATABASES = {
 if (os.environ.get("MODE", "development") == "production"):
     database_url = os.environ.get("DATABASE_URL")
     DATABASES["default"] = dj_database_url.parse(database_url)
-
+else:
+    print("development模式")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
