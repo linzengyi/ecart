@@ -32,7 +32,4 @@ urlpatterns = [
     # api
     path('api/addecartitem/', views.addecartItem),
     path('api/delecartitem/', views.delecartItem),
-
-    # init
-    path('init/', views.init),
 ]

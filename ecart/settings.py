@@ -22,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-q@12345")
+SECRET_KEY = os.environ.get("SECRET_KEY", 'django-insecure-q@a^)2-nr2!8bdxmk60yd3ht5s1m+bdu4v6xpop0ywj($!6&mf')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG","False").lower == "true"
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "['*']").split(" ")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(" ")
 
 # Application definition
 
@@ -79,21 +79,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-
-        # mysql
-        # 'ENGINE': 'django.db.backends.mysql', 
-        # 'NAME': '資料庫名稱', 
-        # 'USER': 'root', 
-        # 'PASSWORD': '1234', 
-        # 'HOST': 'localhost', 
-        # 'PORT': '8888', 
-        # 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'", 
-        # 'charset': 'utf8mb4', 
     }
 }
 
-database_url = os.environ.get("DATABASE_URL")
-DATABASES["default"] = dj_database_url.parse(database_url)
+# 存在MODE環境變數為production執行以下設定，反之不存在為development
+if (os.environ.get("MODE", "development") == "production"):
+    database_url = os.environ.get("DATABASE_URL")
+    DATABASES["default"] = dj_database_url.parse(database_url)
 
 
 # Password validation
